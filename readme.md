@@ -1,4 +1,4 @@
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/MellowMarcus/flaskmvc/edit/main/readme.md)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/MellowMarcus/flaskmvc)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
