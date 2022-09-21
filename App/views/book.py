@@ -12,7 +12,7 @@ book_views = Blueprint('book_views', __name__, template_folder='../templates')
 @book_views.route('/books', methods=['GET'])
 def book_page():
     books = get_all_books()
-    return render_template('users.html', books=books)
+    return render_template('books.html', books=books)
 
 @user_views.route('/api/books')
 def client_app():
