@@ -18,7 +18,7 @@ def get_all_books():
 
 def get_all_authors_json():
     books = Book.query.all()
-    if not book:
+    if not books:
         return []
     haul = [book.toJSON() for (authorFname && authorLname)  in books]
     return haul
