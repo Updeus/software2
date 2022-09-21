@@ -22,14 +22,22 @@ def get_all_book_by_title(title):
 def get_book_by_isbn(isbn):
     return Book.query.filter_by(isbn= isbn).first()
 
-def get_book_by_Year
 
-def get_book_author_by_Year(publiYear):
+def get_book_by_Year(publiYear):
+    books = Book.query.all()
+    if not books:
+        return []
+    haul = [book.toJSON() for publiYear in books]
+    return haul
+
+
+def get_all_author_book_by_Year(publiYear):
     books = Book.query.all()
     if not books:
         return []
     haul = [book.toJSON() for (publiYear && authorFname && authorLname) in books]
     return haul
+
 
 def get_all_authors_json():
     books = Book.query.all()
