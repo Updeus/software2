@@ -16,7 +16,8 @@ from App.controllers import (
 
 from App.views import (
     user_views,
-    index_views
+    index_views,
+    book_views
 )
 
 # New views must be imported and added to this list
