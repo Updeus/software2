@@ -23,7 +23,8 @@ from App.views import (
 
 views = [
     user_views,
-    index_views
+    index_views,
+    book_views
 ]
 
 def add_views(app, views):
