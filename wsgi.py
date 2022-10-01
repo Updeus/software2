@@ -50,8 +50,7 @@ book_cli = AppGroup('book', help='Book object commands')
 @book_cli.command("Create", helps="Creates a book entry")
 @click.argument("isbn", default="12345678901234")
 @click.argument("title", default="Same Felts Autobiography")
-@click.argument("authorFname", default="Sam")
-@click.argument("authorLname", default="Felts")
+@click.argument("author", default="Sam Felts")
 @click.argument("publiYear", default="2000")
 
 def add_book_com(isbn,title,authorFname,authorLname,publiYear):
