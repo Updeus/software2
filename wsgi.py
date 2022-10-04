@@ -47,14 +47,14 @@ def list_user_command(format):
 app.cli.add_command(user_cli) # add the group to the cli
 
 book_cli = AppGroup('book', help='Book object commands')
-@book_cli.command("Create", helps="Creates a book entry")
+@book_cli.command("Create", help="Creates a book entry")
 @click.argument("isbn", default="12345678901234")
 @click.argument("title", default="Same Felts Autobiography")
-@click.argument("author", default="Sam Felts")
+@click.argument("authorName", default="Sam Felts")
 @click.argument("publiYear", default="2000")
 
-def add_book_com(isbn,title,authorFname,authorLname,publiYear):
-    add_book(isbn,title,authorFname,authorLname,publiYear)
+def add_book_com(isbn,title,authorName,publiYear):
+    add_book(isbn,title,authorName,publiYear)
     print(f'{title} added!')
 '''
 Generic Commands

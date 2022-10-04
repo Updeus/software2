@@ -1,8 +1,8 @@
 from App.models import Book
 from App.database import db
 
-def add_book(isbn, title, authorFname, authorLname, publiYear):
-    newbook = Book(isbn = isbn, title = title, author = author, publiYear = publiYear):
+def add_book(isbn, title, authorName, publiYear):
+    newbook = Book(isbn = isbn, title = title, authorName = authorName, publiYear = publiYear)
     db.session.add(newbook)
     db.session.commit()
     return newbook
@@ -35,7 +35,7 @@ def get_all_author_book_by_Year(publiYear):
     books = Book.query.all()
     if not books:
         return []
-    haul = [book.toJSON() for (publiYear && author) in books]
+    haul = [book.toJSON() for (publiYear) in books] #Need to add author name, problems occuring when using and
     return haul
 
 
@@ -43,7 +43,7 @@ def get_all_authors_json():
     books = Book.query.all()
     if not books:
         return []
-    haul = [book.toJSON() for (author)  in books]
+    haul = [book.toJSON() for (authorName)  in books]
     return haul
 
 #Not too sure about how to implement
