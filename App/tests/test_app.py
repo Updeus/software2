@@ -3,14 +3,20 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import create_db
-from App.models import User
+from App.models import User, Book, Author
 from App.controllers import (
     create_user,
     get_all_users_json,
     authenticate,
     get_user,
     get_user_by_username,
-    update_user
+    update_user,
+    add_book,
+    get_all_authors_raw_json,
+    get_all_books_json,
+    get_book_by_isbn,
+    get_all_author_book,
+    specialFeature
 )
 
 from wsgi import app
@@ -44,9 +50,27 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", password)
         assert user.check_password(password)
 
-'''
+class BookUnitTests(unittest.TestCase):
+    def test_new_book(self):
+        book = Book(100, "Science", "Jarod", "Henry", 2022)
+        assert book.isbn == 100 and book.title ==  "Science" and book.authorName ==  "Jarod" and book.publiYear == 2022 and book.coAuthor == "Henry"
+
+    def test_new_book_toJSON(self):
+        book = Book(100, "Science", "Jarod", "Henry", 2022 )
+        book_json = book.toJSON()
+        self.assertDictEqual(book_json, {
+            "isbn": 100,
+            "title": "Science",
+            "authorName": "Jarod",
+            "publiYear": 2022,
+            "coAuthor": "Henry"     
+        })
+
+
+
+"""
     Integration Tests
-'''
+"""
 
 # This fixture creates an empty database for the test and deletes it after the test
 # scope="class" would execute the fixture once and resued for all methods in the class
@@ -77,3 +101,37 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+
+class BooksIntegrationTests(unittest.TestCase):
+
+    def test_create_book(self):
+        book = add_book(100, "Science", "Jarod", 2022, "Henry") 
+        assert book.isbn == 100 and book.title ==  "Science" and book.authorName ==  "Jarod" and book.publiYear == 2022 and book.coAuthor == "Henry"
+    
+    def test_get_all_authors_json(self):
+        authors = get_all_authors_raw_json();
+        self.assertListEqual([['Jarod']], authors) 
+
+    def test_get_all_books(self):
+        books_json = get_all_books_json()
+        self.assertListEqual([{"isbn":100, "title":"Science", "authorName":"Jarod", "publiYear": 2022, "coAuthor": "Henry"}], books_json)
+
+    def test_get_books_by_isbn(self):
+        books_json = get_book_by_isbn(100)
+        assert books_json == {
+            "authorName": "Jarod",
+            "coAuthor": "Henry",
+            "isbn": 100,
+            "publiYear": 2022,
+            "title": "Science"
+            }
+
+    def test_get_books_by_author(self):
+        authorBooks = specialFeature("Jarod")
+        self.assertListEqual([['Title: Science ISBN: 100 Author: Jarod Co-Author/s: Henry']], authorBooks)
+
+    def test_specialfeature(self):
+        authorBooks = get_all_author_book("Jarod")
+        self.assertListEqual([['Title: Science ISBN: 100 Author: Jarod Co-Author/s: Henry']], authorBooks)
+
+    

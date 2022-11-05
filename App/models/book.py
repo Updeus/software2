@@ -6,7 +6,16 @@ class Book(db.Model):
     authorName = db.Column('authorName', db.String(120), db.ForeignKey('author.authorName'))
     coAuthor = db.Column('coAuthor', db.String(120), db.ForeignKey('author.authorName'))
     publiYear = db.Column(db.Integer, nullable=False)
-   
+
+
+    def __init__(self, isbn, title, authorName, coAuthor, publiYear):
+        self.isbn = isbn
+        self.title = title
+        self.authorName = authorName
+        self.coAuthor = coAuthor
+        self.publiYear = publiYear
+
+
     def toJSON(self):
         return{
             "isbn":self.isbn,

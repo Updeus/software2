@@ -10,8 +10,8 @@ def add_book(isbn, title, authorName, publiYear, coAuthor):
     except IntegrityError: # attempted to insert a duplicate ISBN/Book
         db.session.rollback()
         return None
-#    return newbook 
-    return 'Book added'
+#    return 'Book added' 
+    return newbook
 
 def get_all_books():
     return Book.query.all()
@@ -119,6 +119,16 @@ def get_all_authors_json():
         if i not in sorted:
             sorted.append(i)
     return sorted
+
+def get_all_authors_raw_json():
+    books = Book.query.all()
+    dump = []
+    if not books:
+        return []
+    for book in books:
+        haul = [book.authorName] 
+        dump.append(haul)
+    return dump
 
 def add_coAuthor(coAuthor, isbn): #not working how it's supposed to, it just replaces the author, if I try to add it will just make a string
     change = Book.query.filter_by(isbn = isbn).first()
