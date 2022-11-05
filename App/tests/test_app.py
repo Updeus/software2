@@ -27,6 +27,7 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", "bobpass")
         assert user.username == "bob"
 
+    # pure function no side effects or integrations called
     def test_toJSON(self):
         user = User("bob", "bobpass")
         user_json = user.toJSON()
@@ -70,7 +71,8 @@ class UsersIntegrationTests(unittest.TestCase):
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
         self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
-
+    
+    # Tests data changes in the database
     def test_update_user(self):
         update_user(1, "ronnie")
         user = get_user(1)

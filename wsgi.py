@@ -1,10 +1,24 @@
 import click, pytest, sys
-from flask import Flask
+from flask import Flask, jsonify
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users )
+from App.controllers import ( 
+    create_user, 
+    get_all_users_json, 
+    get_all_users, 
+    add_book, 
+    get_all_books_json,
+    get_all_book_by_title,
+    get_book_by_isbn,
+    get_book_by_Year,
+    get_all_books,
+    get_all_author_book_by_Year,
+    get_all_authors_json,
+    get_all_author_book,
+    add_coAuthor
+    )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -39,23 +53,13 @@ def create_user_command(username, password):
 @user_cli.command("list", help="Lists users in the database")
 @click.argument("format", default="string")
 def list_user_command(format):
-    if format == 'string':
-        print(get_all_users())
-    else:
+ #   if format == 'string':
+  #      print(get_all_users())
+  #  else:
         print(get_all_users_json())
 
 app.cli.add_command(user_cli) # add the group to the cli
 
-book_cli = AppGroup('book', help='Book object commands')
-@book_cli.command("Create", helps="Creates a book entry")
-@click.argument("isbn", default="12345678901234")
-@click.argument("title", default="Same Felts Autobiography")
-@click.argument("author", default="Sam Felts")
-@click.argument("publiYear", default="2000")
-
-def add_book_com(isbn,title,authorFname,authorLname,publiYear):
-    add_book(isbn,title,authorFname,authorLname,publiYear)
-    print(f'{title} added!')
 '''
 Generic Commands
 '''
@@ -83,3 +87,40 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
+
+
+
+
+book_cli = AppGroup("book", help='Book object commands')
+
+@book_cli.command("create", help="Creates a book entry")
+@click.argument("isbn")
+@click.argument("title")
+@click.argument("author")
+@click.argument("year")
+@click.argument("coauthor")
+
+def add_book_com(isbn, title, author, year, coauthor): #For some god forsaken reason the cli commands dont work if you have a capital letter in the variable name, so remember this :(
+    add_book(isbn, title, author, year, coauthor)
+    print(f'{title} added!')
+
+@book_cli.command("get-books")
+def get_books_com():
+    print(get_all_books_json())
+
+@book_cli.command("get-authorBookByYear")
+@click.argument("publiYear")
+@click.argument("authorName")
+
+def get_all_author_book_by_Year_com(publiyear, authorname):
+    print(get_all_author_book_by_Year(publiyear, authorname))
+
+@book_cli.command("add_coAuthor")
+@click.argument("coauthor")
+@click.argument("isbn")
+
+def add_coAuthor_com(coauthor, isbn):
+    add_coAuthor(coauthor, isbn)
+    print(f'{coauthor} added!')
+
+app.cli.add_command(book_cli)
