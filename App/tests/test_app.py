@@ -12,7 +12,7 @@ from App.controllers import (
     get_user_by_username,
     update_user,
     add_book,
-    get_all_authors_raw_json,
+    get_all_authors_json,
     get_all_books_json,
     get_book_by_isbn,
     get_all_author_book,
@@ -109,7 +109,7 @@ class BooksIntegrationTests(unittest.TestCase):
         assert book.isbn == 100 and book.title ==  "Science" and book.authorName ==  "Jarod" and book.publiYear == 2022 and book.coAuthor == "Henry"
     
     def test_get_all_authors_json(self):
-        authors = get_all_authors_raw_json();
+        authors = get_all_authors_json();
         self.assertListEqual([['Jarod']], authors) 
 
     def test_get_all_books(self):

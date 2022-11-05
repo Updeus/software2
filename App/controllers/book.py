@@ -120,15 +120,7 @@ def get_all_authors_json():
             sorted.append(i)
     return sorted
 
-def get_all_authors_raw_json():
-    books = Book.query.all()
-    dump = []
-    if not books:
-        return []
-    for book in books:
-        haul = [book.authorName] 
-        dump.append(haul)
-    return dump
+
 
 def add_coAuthor(coAuthor, isbn): #not working how it's supposed to, it just replaces the author, if I try to add it will just make a string
     change = Book.query.filter_by(isbn = isbn).first()
