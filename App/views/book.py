@@ -29,48 +29,48 @@ def authors_page():
     authors = get_all_authors_json()
     return jsonify(authors)
 
-@book_views.route('/api/books/authors/', methods=['POST']) 
+@book_views.route('/api/books/authors/', methods=['POST'])
 @jwt_required()
-
 def show_Author_Books():
     data = request.get_json()
     authorName =  data['authorName']
     authorBooks = get_all_author_book(authorName)
-    if authorBooks == None:
-      return jsonify('No books by this author!')
+    if authorBooks is None:
+        return jsonify('No books by this author!')
     return jsonify(authorBooks)
 
-@book_views.route('/api/specialFeature/', methods=['POST']) 
+@book_views.route('/api/specialFeature/', methods=['POST'])
 @jwt_required()
-
 def showSpecialFeature():
     data = request.get_json()
     authorName =  data['authorName']
     authorBooks = specialFeature(authorName)
-    if authorBooks == None:
-      return jsonify('No books by this author!')
+    if authorBooks is None:
+        return jsonify('No books by this author!')
     return jsonify(authorBooks)
 
 @book_views.route('/api/books/', methods=['POST'])
 @jwt_required()
-
 def showBook():
     data = request.get_json()
     isbn = data['isbn']
     response = jsonify(get_book_by_isbn(isbn))
-    if response == None:
-      return jsonify('Error: Book not found')
-    return response
+    return jsonify('Error: Book not found') if response is None else response
 
 @book_views.route('/api/books/createbook', methods=['POST'])  #Create book route
 @jwt_required() #remove if there's problems
 def createbook():
-  data = request.get_json()
-  book = add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
-  if book:
-    returnString = data['title'] + " added!"
-    return returnString, 201  
-  return jsonify({"error": "Book not added"}), 400
+    data = request.get_json()
+    if book := add_book(
+        isbn=data['isbn'],
+        title=data['title'],
+        authorName=data['authorName'],
+        publiYear=data['publiYear'],
+        coAuthor=data['coAuthor'],
+    ):
+        returnString = data['title'] + " added!"
+        return returnString, 201
+    return jsonify({"error": "Book not added"}), 400
 
 @book_views.route('/static/books')
 def static_book_page():

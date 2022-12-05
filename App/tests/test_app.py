@@ -79,7 +79,7 @@ def empty_db():
     app.config.update({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
     create_db(app)
     yield app.test_client()
-    os.unlink(os.getcwd()+'/App/test.db')
+    os.unlink(f'{os.getcwd()}/App/test.db')
 
 
 def test_authenticate():

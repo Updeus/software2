@@ -24,8 +24,7 @@ def get_all_users_json():
     return users
 
 def update_user(id, username):
-    user = get_user(id)
-    if user:
+    if user := get_user(id):
         user.username = username
         db.session.add(user)
         return db.session.commit()
